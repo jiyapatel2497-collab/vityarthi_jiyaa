@@ -1,0 +1,91 @@
+import csv
+import os
+
+FILENAME = 'expenses.csv'
+
+# Initialize CSV file with headers if it doesn't exist
+def initialize_file():
+    if not os.path.exists(FILENAME):
+        with open(FILENAME, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Date', 'Amount', 'Category', 'Description'])
+
+# Add a new expense record
+def add_expense():
+    date = input('Enter date (YYYY-MM-DD): ')
+    amount = input('Enter amount: ')
+    category = input('Enter category (e.g., Food, Rent): ')
+    description = input('Enter description: ')
+    
+    with open(FILENAME, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([date, amount, category, description])
+    print('Expense added successfully.\n')
+
+# View all expenses
+def view_expenses():
+    if not os.path.exists(FILENAME):
+        print('No expense records found.\n')
+        return
+    with open(FILENAME, mode='r') as file:
+        reader = csv.reader(file)
+        next(reader)  # skip header
+        print(f'{"Date":<12} {"Amount":<10} {"Category":<15} Description')
+        print('-' * 50)
+        for row in reader:
+            print(f'{row[0]:<12} {row[1]:<10} {row[2]:<15} {row[3]}')
+    print()
+
+# Delete an expense by line number
+def delete_expense():
+    if not os.path.exists(FILENAME):
+        print('No expense records found.\n')
+        return
+    with open(FILENAME, mode='r') as file:
+        lines = list(csv.reader(file))
+    if len(lines) <= 1:
+        print('No expenses to delete.\n')
+        return
+    
+    view_expenses()
+    line_num = input('Enter the line number of the expense to delete (starting from 1): ')
+    try:
+        line_num = int(line_num)
+        if line_num < 1 or line_num >= len(lines):
+            print('Invalid line number.\n')
+            return
+    except ValueError:
+        print('Invalid input. Please enter a number.\n')
+        return
+    
+    del lines[line_num]
+    
+    with open(FILENAME, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(lines)
+    print('Expense deleted successfully.\n')
+
+def main():
+    initialize_file()
+    while True:
+        print('Expense Tracker Menu')
+        print('1. Add Expense')
+        print('2. View Expenses')
+        print('3. Delete Expense')
+        print('4. Exit')
+        choice = input('Enter your choice: ')
+        
+        if choice == '1':
+            add_expense()
+        elif choice == '2':
+            view_expenses()
+        elif choice == '3':
+            delete_expense()
+        elif choice == '4':
+            print('Exiting Expense Tracker. Goodbye!')
+            break
+        else:
+            print('Invalid choice. Please try again.\n')
+
+if __name__ == '__main__':
+    main()
