@@ -20,3 +20,21 @@ The Python Expense Tracker is a simple command-line application designed to help
 2. Download or clone the project repository.
 3. Navigate to the project directory.
 4. Run the application:
+5. Follow the on-screen menu to manage your expenses.
+
+## How to Use
+- Choose from the menu options: Add, View, Delete, or Exit.
+- When adding, enter the requested expense details.
+- View your expense list at any time to see current records.
+- Delete expenses by specifying the corresponding entry number.
+
+## Project Structure
+- `expense_tracker.py` — Main application script containing all code.
+- `expenses.csv` — Data file storing the expense records.
+
+## Future Enhancements
+- Add user authentication for multi-user support.
+- Provide monthly and category-wise summary reports.
+- Integrate graphical UI using Tkinter or web interface.
+- Implement data visualization with charts.
+- Add export options for reports (PDF, Excel).
